@@ -200,9 +200,9 @@ U..." />
 <li>对Activity设置主题来变换</li>
 <li>动态设置资源，控制view刷新</li>
 </ol>
-<h4 id="UIMode实现"><a href="#UIMode实现" class="headerlink" title="UIMode实现"></a>UIMode实现</h4><ol>
+<h3 id="UIMode实现"><a href="#UIMode实现" class="headerlink" title="UIMode实现"></a>UIMode实现</h3><ol>
 <li><p>在value的同级目录下新建一个<code>values-night</code>的目录，其中新建colors.xml文件，themes.xml文件等需要日夜间切换</p>
-<p><img src="/imageMd/daynight_1.jpg" alt="daynight_1"></p>
+<p><img src="/imageMd/daynight-1.jpg" alt="daynight-1"></p>
 </li>
 </ol>
 <ol start="2">
@@ -216,7 +216,7 @@ U..." />
 </li>
 </ol>
 <p>系统会根据日夜间自动去取<code>*-night</code>或者正常的文件夹相对应的配置，配合持久化存储进行日夜间状态存储，二次打开加载上一次设置的模式</p>
-<h4 id="设置Activity主题实现"><a href="#设置Activity主题实现" class="headerlink" title="设置Activity主题实现"></a>设置Activity主题实现</h4><ol>
+<h3 id="设置Activity主题实现"><a href="#设置Activity主题实现" class="headerlink" title="设置Activity主题实现"></a>设置Activity主题实现</h3><ol>
 <li><p>在colors.xml中新建日夜间两种颜色</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">    &lt;color name=<span class="string">&quot;background_day&quot;</span>&gt;#FFFFFFFF&lt;/color&gt;</span><br><span class="line">    &lt;color name=<span class="string">&quot;background_night&quot;</span>&gt;#FF000000&lt;/color&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
 </li>
@@ -247,7 +247,7 @@ U..." />
 </ol>
 </li>
 </ol>
-<h4 id="动态设置资源，控制view刷新"><a href="#动态设置资源，控制view刷新" class="headerlink" title="动态设置资源，控制view刷新"></a>动态设置资源，控制view刷新</h4><p>比较代表性的就是<a target="_blank" rel="noopener" href="https://github.com/ximsfei/Android-skin-support">Android-skin-support</a>这个库</p>
+<h3 id="动态设置资源，控制view刷新"><a href="#动态设置资源，控制view刷新" class="headerlink" title="动态设置资源，控制view刷新"></a>动态设置资源，控制view刷新</h3><p>比较代表性的就是<a target="_blank" rel="noopener" href="https://github.com/ximsfei/Android-skin-support">Android-skin-support</a>这个库</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/studyofandroid/article/details/109445822">android-skin-support使用和原理分析</a></p>
 <p>添加如下依赖：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">&#x27;skin.support:skin-support:4.0.5&#x27;</span>                   <span class="comment">// skin-support</span></span><br><span class="line">implementation <span class="string">&#x27;skin.support:skin-support-appcompat:4.0.5&#x27;</span>         <span class="comment">// skin-support 基础控件支持</span></span><br><span class="line">implementation <span class="string">&#x27;skin.support:skin-support-design:4.0.5&#x27;</span>            <span class="comment">// skin-support-design material design 控件支持[可选]</span></span><br><span class="line">implementation <span class="string">&#x27;skin.support:skin-support-cardview:4.0.5&#x27;</span>          <span class="comment">// skin-support-cardview CardView 控件支持[可选]</span></span><br><span class="line">implementation <span class="string">&#x27;skin.support:skin-support-constraint-layout:4.0.5&#x27;</span> <span class="comment">// skin-support-constraint-layout ConstraintLayout 控件支持[可选]</span></span><br></pre></td></tr></table></figure>
@@ -258,7 +258,7 @@ U..." />
 <p>通过如下方法触发</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SkinCompatManager.getInstance().loadSkin(<span class="string">&quot;night&quot;</span>, SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN); <span class="comment">// 后缀加载</span></span><br></pre></td></tr></table></figure>
 <p>详细用法查看<a target="_blank" rel="noopener" href="https://github.com/ximsfei/Android-skin-support">README</a></p>
-<h4 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h4><ol>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><ol>
 <li>UIMode和theme替换都需要重建Activity，所以会导致闪屏，动态替换会更加流畅</li>
 <li>recreate()是在API 11添加进来的，所以会在Android 2.x中使用抛出异常</li>
 <li>theme换肤起来会更加方便</li>
@@ -332,7 +332,7 @@ new Valine({
             文章目录
         </h3>
         
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E8%A7%88"><span class="toc-text">总览</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#UIMode%E5%AE%9E%E7%8E%B0"><span class="toc-text">UIMode实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEActivity%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0"><span class="toc-text">设置Activity主题实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%AE%BE%E7%BD%AE%E8%B5%84%E6%BA%90%EF%BC%8C%E6%8E%A7%E5%88%B6view%E5%88%B7%E6%96%B0"><span class="toc-text">动态设置资源，控制view刷新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94"><span class="toc-text">对比</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E8%A7%88"><span class="toc-text">总览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UIMode%E5%AE%9E%E7%8E%B0"><span class="toc-text">UIMode实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEActivity%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0"><span class="toc-text">设置Activity主题实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%AE%BE%E7%BD%AE%E8%B5%84%E6%BA%90%EF%BC%8C%E6%8E%A7%E5%88%B6view%E5%88%B7%E6%96%B0"><span class="toc-text">动态设置资源，控制view刷新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94"><span class="toc-text">对比</span></a></li></ol></li></ol>
         
     </div>
 </aside>
