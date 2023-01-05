@@ -22,10 +22,8 @@
 <meta name="keywords" content="Android" />
 
 
-<meta name="description" content="基于IDEA插件的实时代码检测及推荐调研背景由于目前的移动端的崩溃和卡顿个数较多所以进行开发建设治理工具，通过工具化降低线上问题，提高App的稳定性
-目标通过实时获取开发者当前的开发内容
-
-推荐..." />
+<meta name="description" content="目标针对不同方向，如开发阶段，编译阶段，修复阶段等都进行提效，降低错误数量，便捷修复错误问题等。
+android studio本身存在系统的lint检查工具，但功能有限，并不能囊括所有的问题，参..." />
 
 
 <meta name="robots" content="all" />
@@ -36,7 +34,7 @@
 
 <title>
     
-    基于IDE插件的代码实时检测 |
+    lint方案调研 |
     
     纳兰寒明的博客
 </title>
@@ -150,9 +148,9 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="基于IDE插件的代码实时检测">
+        <h1 id="lint方案调研">
             
-            基于IDE插件的代码实时检测
+            lint方案调研
             
         </h1>
         <div class="post-meta">
@@ -187,69 +185,52 @@
     </div>
     
     <div class="post-body post-content">
-        <h2 id="基于IDEA插件的实时代码检测及推荐调研"><a href="#基于IDEA插件的实时代码检测及推荐调研" class="headerlink" title="基于IDEA插件的实时代码检测及推荐调研"></a>基于IDEA插件的实时代码检测及推荐调研</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>由于目前的移动端的崩溃和卡顿个数较多所以进行开发建设治理工具，通过工具化降低线上问题，提高App的稳定性</p>
-<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>通过实时获取开发者当前的开发内容</p>
+        <h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>针对不同方向，如开发阶段，编译阶段，修复阶段等都进行提效，降低错误数量，便捷修复错误问题等。</p>
+<p>android studio本身存在系统的lint检查工具，但功能有限，并不能囊括所有的问题，参考<a target="_blank" rel="noopener" href="https://tech.meituan.com/2018/04/13/waimai-android-lint.html">美团外卖Android Lint代码检查实践</a>，我们可以自研一套lint工具体系，以此更好的治理移动端错误</p>
+<p>目前在知乎的android组件中并没有成型的可用自定义lint方案，所以我们可以构建一个</p>
+<h3 id="方案调研"><a href="#方案调研" class="headerlink" title="方案调研"></a>方案调研</h3><p>Android Studio 提供了一个名为 lint 的代码扫描工具，可帮助开发者发现并改正代码结构质量方面的问题。系统会报告该工具检测到的每个问题并提供问题的描述信息和严重级别。</p>
+<p>lint可针对android的源文件，通过lint.xml进行配置后，通过lint工具进行在正确性、安全性、性能、易用性、无障碍性和国际化方面入手，优化改进。</p>
+<p><img src="/imageMd/lint-1.png" alt="img"></p>
+<h4 id="检测时机"><a href="#检测时机" class="headerlink" title="检测时机"></a>检测时机</h4><p>其可在开发阶段通过idea识别并提示开发者，亦可在编译时提示。</p>
 <ol>
-<li>推荐适合当前语境的代码。eg：如使用Dialog时，提示其调用方式</li>
-<li>发现当前代码存在问题，并提出解决方案。eg：文档汇总、MR中的优秀代码块</li>
-</ol>
-<h3 id="方案调研"><a href="#方案调研" class="headerlink" title="方案调研"></a>方案调研</h3><p>基于目前的目标，我们考虑了两种方案：IDEA插件、Lint工具</p>
-<h4 id="Lint工具"><a href="#Lint工具" class="headerlink" title="Lint工具"></a>Lint工具</h4><p>lint规则书写是从问题角度出发，根据发生的问题进行规则书写，对推荐侧并不是强依赖，所以lint工具的局限性较强，局限在这些规则中。</p>
-<h4 id="IDEA插件"><a href="#IDEA插件" class="headerlink" title="IDEA插件"></a>IDEA插件</h4><p>IDEA是当前主流的开发工具，当前开发Android的主流工具Android studio也是基于IDEA进行开发的。所以开发IDEA插件也可以在Android Studio中通用。</p>
-<p>IDEA插件是什么？</p>
-<p>以Android Studio为例，我们常用的project，Gradle的工具栏，底部的工具栏，如Logcat等都是IDEA插件，可以说在Android studio中你使用所有功能的绝大多数都是IDEA插件。如此强大的IDEA插件是因为，IDEA插件提供了多样化的SDK，可以使开发者在插件上实现各式各样的功能，满足多样化的需求。</p>
-<h5 id="插件方式"><a href="#插件方式" class="headerlink" title="插件方式"></a>插件方式</h5><p>IDEA插件的创建有两种方式：DevKit插件 和 Gradle插件<br>而官方文档已经建议使用Gradle插件了，<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/migrating-plugin-devkit-to-gradle.html">将 DevKit 插件迁移到 Gradle</a>，所以本IDEA插件会采用基于Gradle的环境进行开发</p>
-<h5 id="使用介绍"><a href="#使用介绍" class="headerlink" title="使用介绍"></a>使用介绍</h5><ol>
-<li><p>koltin适配：<br>目前的IDEA插件允许行配置kotlin语言开发，并明确了kotlin开发在开发插件中的优势，<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/using-kotlin.html">配置Kotlin支持</a><br>同时，如果有一些UI的开发工作，不太会使用swing搭建的，可以使用kotlin的DSL进行UI搭建。<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/kotlin-ui-dsl-version-2.html">kotlin DLS 开发</a></p>
+<li><p>在开发阶段<br>idea会识别lint工具，并根据级别展示不同提示<br><img src="/imageMd/lint-2.png" alt="image2022-8-24_13-48-3"><br>开发者可在弹窗中获取更多关于提示的信息，并根据提示修复问题</p>
 </li>
-<li><p>Plugin Content（插件内容）：</p>
-<p>插件进行打包后生成的.jar文件包含：</p>
+<li><p>在编译阶段<br><img src="/imageMd/lint-3.png" alt="image2022-8-24_13-53-3"><br>会存在提示，如是error级别日志会阻断编译过程，必须修复后方可运行</p>
+</li>
+<li><p>除此之外，我们亦可手动调用 ./gradlew lint 进行代码检查，之后会生成xml文件和html文件可供分析<br><img src="/imageMd/lint-4.png" alt="image2022-8-24_14-0-44"><br><img src="/imageMd/lint-5.png" alt="image2022-8-24_14-8-36"></p>
+</li>
+<li><p>commit增量检测<br>lint的原理是进行全盘扫描，如果项目较为庞大，那么可定耗时很长，所以可以通过分析每次commit生成的diff文件，进行增量lint检测</p>
+</li>
+</ol>
+<ol start="5">
+<li>CI检测<br>可通过配置打包服务器Jenkins，在提交mr的时候进行检测</li>
+</ol>
+<h4 id="检测配置"><a href="#检测配置" class="headerlink" title="检测配置"></a>检测配置</h4><ol>
+<li><p>配置可检测规则</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  lintOptions &#123;</span><br><span class="line">        <span class="comment">//设置只检查的类型</span></span><br><span class="line">        def checkList = [</span><br><span class="line">                <span class="string">&#x27;SerializableClassCheck&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;HandleExceptionCheck&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;AvoidUsageApiCheck&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;DependencyApiCheck&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;ResourceNameCheck&#x27;</span></span><br><span class="line">        ] as String[]</span><br><span class="line">        check checkList</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="2">
+<li><p>针对当前项目进行配置<br>右键点击项目<strong>Analyze→InspectCode</strong> 进行相关的lint有效范围配置<br><img src="/imageMd/lint-6.png" alt="image2022-8-24_15-54-10"></p>
+</li>
+<li><p>忽略历史问题<br>通过创建一个baseline.xml文件，将该时间点之前的所有项目产生的lint问题忽略</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android&#123;  </span><br><span class="line">  lintOptions &#123;        </span><br><span class="line">    <span class="comment">//创建警告基准       </span></span><br><span class="line">    <span class="function">baseline <span class="title">file</span><span class="params">(<span class="string">&quot;lint-baseline.xml&quot;</span>)</span>    </span></span><br><span class="line"><span class="function">  &#125; </span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="方案优势"><a href="#方案优势" class="headerlink" title="方案优势"></a>方案优势</h3><p>采用lint方案，存在什么优势呢？</p>
 <ol>
-<li>配置文件（<strong>META-INF/plugin.xml</strong>）</li>
-<li>实现插件的功能类</li>
-<li>插件的图标（<strong>META-INF/pluginIcon*.svg</strong>）</li>
+<li>功能强大，Lint支持Java和Kt源文件、class文件、资源文件、Gradle等文件的检查。</li>
+<li>扩展性强，支持开发自定义Lint规则。</li>
+<li>配套工具完善，Android Studio、Android Gradle插件原生支持Lint工具。</li>
+<li>Lint专为Android设计，原生提供了几百个实用的Android相关检查规则。</li>
+<li>有Google官方的支持，会和Android开发工具一起升级完善。</li>
 </ol>
-</li>
-<li><p>Bundling Plugin API Sources（绑定插件的API源）：<br>如果第三方插件使用<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html">Gradle IntelliJ 插件</a>并向插件添加依赖项，该插件捆绑 ZIP 分发中的源代码，则当开发人员导航到 API 类时，源代码将自动附加到插件库并在 IDE 中可见。</p>
-</li>
-<li><p>Plugin Class Loaders（插件类加载器）：<br>可以加载当前插件中找不到的类。</p>
-</li>
-<li><p>Plugin Actions（插件动作）：<br>Actions是绝大部分插件会使用的方式，他是IDEA提供的一个动作的概念，比如点击工具栏按钮，使用快捷键，命令行触发<br><img src="/imageMd/idea-2.png" alt="img"></p>
-<p>通过add-to-group配置，对Actions的触发条件进行设置，eg：绑定Command-N快捷键</p>
-</li>
-<li><p>Plugin Extensions（插件拓展）：<br>可以理解为插件的入口，比如菜单栏，工具栏等众多拓展点，基本所有的东西都允许二次拓展，大概存在<code>1424</code>个<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/extension-point-list.html">扩展点</a>。</p>
-</li>
-<li><p>Plugin Listeners（插件监听器）：</p>
-<p>IDEA插件中的监听器，通过消息总线的方式进行传输，插件方可根据自己的需求监听不同的监听器，执行不同的逻辑处理。目前存在<code>211</code>个<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/extension-point-list.html">监听器</a>。</p>
-</li>
-<li><p>Plugin Extension Points（插件拓展点）：</p>
-<p>与Plugin Extensions对立，这里接入拓展点后，别的插件可以在你的基础上进行二次拓展</p>
-<ol>
-<li>接口拓展：其他插件实现你的接口，进行拓展调用</li>
-<li>Bean拓展：其他插件可以使用你的data拓展你的插件，新增数据类型等</li>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>可以采用lint工具，其推进的最大阻力在于lint的规则编写。</p>
+<p>根据目前线上出现的高频问题，进行评估后列入表格中，按表格依次开发规则迭代lint工具。</p>
+<h3 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h3><ol>
+<li>lint规则可配置处理，无需手写规则</li>
+<li>增量lint判断处理</li>
 </ol>
-</li>
-<li><p>Plugin Services（插件服务）：</p>
-<p>插件服务的存在主要是确保只存在一个实例，即使他被多次调用</p>
-<ul>
-<li><code>com.intellij.applicationService</code> - 应用级别服务</li>
-<li><code>com.intellij.projectService</code> - 项目级别服务</li>
-<li><code>com.intellij.moduleService</code> - 模块级别服务（官方不推荐使用，会增加内存损耗）</li>
-</ul>
-</li>
-<li><p>Components（组件）：</p>
-<p>是一个被抛弃的东西，不支持动态加载，如果使用了，需要进行迁移</p>
-</li>
-<li><p>Plugin Configuration File（插件配置文件）：<br><strong>plugin.xml</strong>文件的语法</p>
-</li>
-<li><p>Plugin Logo (Icon)（插件图标）</p>
-</li>
-<li><p>Plugin Dependencies（插件依赖项）</p>
-</li>
-</ol>
-<h5 id="IDEA插件结构"><a href="#IDEA插件结构" class="headerlink" title="IDEA插件结构"></a>IDEA插件结构</h5><p><img src="/imageMd/idea-1.png" alt="image-20221107212550157"></p>
-<p>对于非用户触发的操作通过一个队列进行管理，防止逻辑时间点相近导致短时间内重复请求，造成项目卡顿，服务超载的问题<br>对于用户触发的操作则直接进行处理，请求推荐算法获取结论，并展示在IDEA或者直接修复代码</p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>通过IDEA插件的Gradle形式可以实现对代码的动态监测，开发完毕后，需要对IDEA插件的性能进行分析，避免影响开发者的正常开发。</p>
 
     </div>
     
@@ -268,11 +249,17 @@
 </article>
 <div class="article-nav prev-next-wrap clearfix">
     
+    <a href="/2023/01/05/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/%E5%9F%BA%E4%BA%8EIDE%E6%8F%92%E4%BB%B6%E7%9A%84%E4%BB%A3%E7%A0%81%E5%AE%9E%E6%97%B6%E6%A3%80%E6%B5%8B/" class="pre-post btn btn-default" title='基于IDE插件的代码实时检测'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            基于IDE插件的代码实时检测</span>
+    </a>
     
-    <a href="/2023/01/05/lint%E6%96%B9%E6%A1%88%E8%B0%83%E7%A0%94/" class="next-post btn btn-default" title='lint方案调研'>
+    
+    <a href="/2023/01/05/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/lint%E5%9C%A8AGP3-3-3%E5%A4%B1%E6%95%88%E7%9A%84%E9%97%AE%E9%A2%98/" class="next-post btn btn-default" title='lint在AGP3.3.3失效的问题'>
         <span class="hidden-lg">下一篇</span>
         <span class="hidden-xs">
-            lint方案调研</span><i class="fa fa-angle-right fa-fw"></i>
+            lint在AGP3.3.3失效的问题</span><i class="fa fa-angle-right fa-fw"></i>
     </a>
     
 </div>
@@ -313,7 +300,7 @@ new Valine({
             文章目录
         </h3>
         
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EIDEA%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%9E%E6%97%B6%E4%BB%A3%E7%A0%81%E6%A3%80%E6%B5%8B%E5%8F%8A%E6%8E%A8%E8%8D%90%E8%B0%83%E7%A0%94"><span class="toc-text">基于IDEA插件的实时代码检测及推荐调研</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E8%B0%83%E7%A0%94"><span class="toc-text">方案调研</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Lint%E5%B7%A5%E5%85%B7"><span class="toc-text">Lint工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IDEA%E6%8F%92%E4%BB%B6"><span class="toc-text">IDEA插件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E6%96%B9%E5%BC%8F"><span class="toc-text">插件方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D"><span class="toc-text">使用介绍</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IDEA%E6%8F%92%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-text">IDEA插件结构</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E8%B0%83%E7%A0%94"><span class="toc-text">方案调研</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E6%97%B6%E6%9C%BA"><span class="toc-text">检测时机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E9%85%8D%E7%BD%AE"><span class="toc-text">检测配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E4%BC%98%E5%8A%BF"><span class="toc-text">方案优势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E5%B1%95"><span class="toc-text">拓展</span></a></li></ol>
         
     </div>
 </aside>
