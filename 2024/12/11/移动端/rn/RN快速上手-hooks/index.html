@@ -1,0 +1,387 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="纳兰寒明的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+<meta name="keywords" content="react native" />
+
+
+<meta name="description" content="[TOC]
+前言先说说客户端以后的发展吧！
+无非以下几个选择：
+
+接着在客户端卷，从客户端卷到前端，做到整体大前端。
+做终端底层，类似车载，学习机，路由器，穿戴设备，系统framework层等
+..." />
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+<title>
+    
+    RN快速上手-hooks |
+    
+    纳兰寒明的博客
+</title>
+
+<link rel="alternate" href="/atom.xml" title="纳兰寒明的博客" type="application/atom+xml">
+
+
+<link rel="icon" href="/avatar.ico">
+
+    
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://hexo-theme-snippet-1251680922.cos.ap-beijing.myqcloud.com/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='纳兰寒明'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                我有一个梦想
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">
+                        纳兰寒明的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/后端/"><i class="fa "></i>
+                                后端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/移动端/"><i class="fa "></i>
+                                移动端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/随笔/"><i class="fa "></i>
+                                随笔</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时光轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="RN快速上手-hooks">
+            
+            RN快速上手-hooks
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-none-link" href="/tags/react-native/" rel="tag">react native</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2024/12/11</span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <p>[TOC]</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先说说客户端以后的发展吧！</p>
+<p>无非以下几个选择：</p>
+<ol>
+<li>接着在客户端卷，从客户端卷到前端，做到整体大前端。</li>
+<li>做终端底层，类似车载，学习机，路由器，穿戴设备，系统framework层等</li>
+<li>去后端卷吧，java也有一席之地。业务的后端和算法，大数据，AI的差点还是挺大的，而且后三的门槛比较高，歧视链严重。</li>
+</ol>
+<p>直接上结论，如果还要继续做客户端的话，客户端掌握RN已经是必然，建议客户端同学都学习参与进来。</p>
+<p>当前形势下，客户端百花齐放，前有安卓，苹果，后有华为。（主要还是华为的冲击比较大）公司如果还要在客户端发力，必然需要支持这三端开发，但是安卓使用java，kotlin，苹果使用swift，objectC，鸿蒙使用arkts。如果再加上RN，那就是4种。这4种技术栈如果需要3-4组人开发，那成本可想而知。在很久以前，众大厂都觉得双端人力成本过高，使用跨端技术RN,flutter减少开发人力成本。如果在加上鸿蒙系统的话，三端开发，更加促进了跨端技术的发展，会有更多的公司考虑引入跨端技术进行改进。</p>
+<p>以我们公司来说，在android，iOS，hmos，rn中最少掌握2种，最好掌握三种技术栈</p>
+<p>回归内容，如果客户端同学需要掌握RN技术，如何快速上手呢</p>
+<h2 id="开发差异"><a href="#开发差异" class="headerlink" title="开发差异"></a>开发差异</h2><p>RN使用的是ts，js进行开发，使用React组件，其中比较出名的是redux数据流处理思想。</p>
+<p>hmos使用的是arkts进行开发，可以理解他是更轻的ts语言，其中很多特性都删除了。</p>
+<p>android使用的是kotlin，java进行开发。</p>
+<p>其中可以看到，RN和hmos都是ts语言，android是kotlin，java语言。java和kotlin语言是面向对象的语言，new一个class走天下。ts虽然说是面向对象的js语言，但是ts的官方却在建议不要使用其面向对象的特性，那么对于我们来说，为了写的优雅，ts可以立即为和js一样都是面向编程的语言（函数式编程）</p>
+<p>对于android出身的人来说，天塌了，不是万物皆是对象吗？犹豫不决new对象，怎么在RN中不允许new了。这其实需要客户端出身的人进行转变，RN说到底使用的是react前端技术栈，快速迭代，简单堆叠是前端的本性。</p>
+<h2 id="如何上手？"><a href="#如何上手？" class="headerlink" title="如何上手？"></a>如何上手？</h2><p><a target="_blank" rel="noopener" href="https://reactnative.cn/docs/getting-started">React Native 中文网</a>一定是圣经，但是还是建议看一下<a target="_blank" rel="noopener" href="https://zh-hans.react.dev/learn">React</a>相关的，不懂React直接上手RN还是有一定难度的。</p>
+<p>但是看这些确实需要很多时间，所以最好的学习方式其实是你上手一个小页面，在一知半解，各种不适应中进行开发迭代，看着前辈的代码照葫芦画瓢，他为什么这么写？这个关键词是什么意思？为什么要这么用？实践出真知！</p>
+<p>如果你没时间看如上文档，那么在上手前还是建议你一定要踏实的先看下这篇文章。看完可以直接开发了。</p>
+<p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2020/09/react-hooks-useeffect-tutorial.html">轻松学会 React 钩子：以 useEffect() 为例</a></p>
+<h2 id="如何理解RN技术栈-hooks"><a href="#如何理解RN技术栈-hooks" class="headerlink" title="如何理解RN技术栈-hooks"></a>如何理解RN技术栈-hooks</h2><p>RN提供了两种组件模式：类组件、函数组件</p>
+<p>对于类组件来说，对于android很好理解，快速上手没啥问题，但是</p>
+<p>官方推荐函数组件，那么我们需要提供的组件都是一个函数，那么页面的逻辑和数据处理应该放在哪里？</p>
+<p>函数组件的相关逻辑都放在hooks(勾子)中，可以说hooks是RN组件开发的精髓，懂了他，RN开发就没啥大问题了。</p>
+<p>hooks会存在一些规范：</p>
+<ul>
+<li>不要在条件语句内或循环语句内调用 Hook。</li>
+<li>不要在包含 <code>return</code> 的条件语句之后调用 Hook。</li>
+<li>不要在事件监听中调用 Hook。</li>
+<li>不要在类式组件内调用 Hook。</li>
+<li>不要在那些传给 <code>useMemo</code>，<code>useReducer</code> 或 <code>useEffect</code> 的函数内调用 Hook。</li>
+</ul>
+<p>常用hooks： <a target="_blank" rel="noopener" href="https://zh-hans.react.dev/reference/react/hooks">React内置Hook</a></p>
+<ul>
+<li><p><strong>useEffect</strong>：通用的函数组件勾子。如果监听属性不设置，则加载完成后会回调一次，如果设置数据变化，才会牵动勾子执行，最常用的是进行网络请求</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">fetchData</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">      <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title function_">axios</span>(</span><br><span class="line">        <span class="string">&#x27;https://hn.algolia.com/api/v1/search?query=redux&#x27;</span>,</span><br><span class="line">      );</span><br><span class="line"></span><br><span class="line">      <span class="title function_">setData</span>(result.<span class="property">data</span>);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">fetchData</span>();</span><br><span class="line">  &#125;, []);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong><a target="_blank" rel="noopener" href="https://zh-hans.react.dev/reference/react/useLayoutEffect">useLayoutEffect</a></strong>:在浏览器重新绘制屏幕前执行，可以在此处测量布局</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  </span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zh-hans.react.dev/reference/react/useState"><strong>useState</strong></a>:向组件添加一个状态变量</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [state, setState] = <span class="title function_">useState</span>(initialState)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zh-hans.react.dev/reference/react/useReducer"><strong>useReducer</strong></a>：引入redux组件reducer功能</p>
+<p>Redux：(state, action) &#x3D;&gt; newState 收到action后通过reducer算出新的状态值，进行ui更新</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [state, dispatch] = <span class="title function_">useReducer</span>(reducer, initialArg, init?)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zh-hans.react.dev/reference/react/useContext"><strong>useContext</strong></a>：子使用父组件的属性，子公用，父存储</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> value = <span class="title function_">useContext</span>(<span class="title class_">SomeContext</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zh-hans.react.dev/reference/react/useRef"><strong>useRef</strong></a>:存储非影响渲染的变量数据</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ref = <span class="title function_">useRef</span>(initialValue)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><a href=""><strong>useMemo</strong></a>:它在每次重新渲染的时候能够缓存计算的结果</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> cachedValue = <span class="title function_">useMemo</span>(calculateValue, dependencies)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>useMount</strong>:组件初始化时执行一次，使用usEffect的控监听特性实现</p>
+</li>
+</ul>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+    <a href="/2023/11/27/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/%E5%AF%8C%E6%96%87%E6%9C%AC%E9%80%89%E4%B8%AD%E7%8A%B6%E6%80%81%E6%96%B9%E6%A1%88/" class="next-post btn btn-default" title='富文本选中状态方案'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            富文本选中状态方案</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+
+<div id="vcomments" class="valine"></div>
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+<script>
+new Valine({
+    av: AV,
+    el: '#vcomments',
+    appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+    appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+    placeholder: '说点什么吧',
+    notify: false,
+    verify: true,
+    avatar: 'mm',
+    meta: 'nick,mail'.split(','),
+    pageSize: '10',
+    path: window.location.pathname,
+    lang: 'zh-CN'.toLowerCase()
+})
+</script>
+
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E5%B7%AE%E5%BC%82"><span class="toc-text">开发差异</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%B8%8A%E6%89%8B%EF%BC%9F"><span class="toc-text">如何上手？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3RN%E6%8A%80%E6%9C%AF%E6%A0%88-hooks"><span class="toc-text">如何理解RN技术栈-hooks</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/assets/tagcanvas.min.js?rev=2.9.js"></script>
+
+<script>
+var tagOption = {
+    textColour: '#444', // 字体颜色
+    outlineMethod: 'block', // 选中模式
+    outlineColour: '#FFDAB9', // 选中模式的颜色
+    interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+    textHeight: 13,
+    outlineRadius: 3,
+    freezeActive: true || '', // 选中的标签是否继续滚动
+    frontSelect: true || '', // 不选标签云后部的标签
+    initial: [0.1, -0.1],
+    depth: 0.5,
+    decel: 0.95,
+    maxSpeed: 0.03,
+    reverse: true || '', // 是否反向触发
+    fadeIn: 500, // 进入动画时间
+    wheelZoom: false || '' // 是否启用鼠标滚轮
+}
+TagCanvas.Start('tag-cloud-3d', '', tagOption);
+</script>
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>

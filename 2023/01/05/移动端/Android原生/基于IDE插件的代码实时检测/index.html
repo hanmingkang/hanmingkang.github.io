@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="纳兰寒明的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+<meta name="keywords" content="Android" />
+
+
+<meta name="description" content="基于IDEA插件的实时代码检测及推荐调研背景由于目前的移动端的崩溃和卡顿个数较多所以进行开发建设治理工具，通过工具化降低线上问题，提高App的稳定性
+目标通过实时获取开发者当前的开发内容
+
+推荐..." />
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+<title>
+    
+    基于IDE插件的代码实时检测 |
+    
+    纳兰寒明的博客
+</title>
+
+<link rel="alternate" href="/atom.xml" title="纳兰寒明的博客" type="application/atom+xml">
+
+
+<link rel="icon" href="/avatar.ico">
+
+    
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://hexo-theme-snippet-1251680922.cos.ap-beijing.myqcloud.com/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='纳兰寒明'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                我有一个梦想
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">
+                        纳兰寒明的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/后端/"><i class="fa "></i>
+                                后端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/移动端/"><i class="fa "></i>
+                                移动端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/随笔/"><i class="fa "></i>
+                                随笔</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时光轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="基于IDE插件的代码实时检测">
+            
+            基于IDE插件的代码实时检测
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-none-link" href="/tags/Android/" rel="tag">Android</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2023/01/05</span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                707</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="基于IDEA插件的实时代码检测及推荐调研"><a href="#基于IDEA插件的实时代码检测及推荐调研" class="headerlink" title="基于IDEA插件的实时代码检测及推荐调研"></a>基于IDEA插件的实时代码检测及推荐调研</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>由于目前的移动端的崩溃和卡顿个数较多所以进行开发建设治理工具，通过工具化降低线上问题，提高App的稳定性</p>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>通过实时获取开发者当前的开发内容</p>
+<ol>
+<li>推荐适合当前语境的代码。eg：如使用Dialog时，提示其调用方式</li>
+<li>发现当前代码存在问题，并提出解决方案。eg：文档汇总、MR中的优秀代码块</li>
+</ol>
+<h3 id="方案调研"><a href="#方案调研" class="headerlink" title="方案调研"></a>方案调研</h3><p>基于目前的目标，我们考虑了两种方案：IDEA插件、Lint工具</p>
+<h4 id="Lint工具"><a href="#Lint工具" class="headerlink" title="Lint工具"></a>Lint工具</h4><p>lint规则书写是从问题角度出发，根据发生的问题进行规则书写，对推荐侧并不是强依赖，所以lint工具的局限性较强，局限在这些规则中。</p>
+<h4 id="IDEA插件"><a href="#IDEA插件" class="headerlink" title="IDEA插件"></a>IDEA插件</h4><p>IDEA是当前主流的开发工具，当前开发Android的主流工具Android studio也是基于IDEA进行开发的。所以开发IDEA插件也可以在Android Studio中通用。</p>
+<p>IDEA插件是什么？</p>
+<p>以Android Studio为例，我们常用的project，Gradle的工具栏，底部的工具栏，如Logcat等都是IDEA插件，可以说在Android studio中你使用所有功能的绝大多数都是IDEA插件。如此强大的IDEA插件是因为，IDEA插件提供了多样化的SDK，可以使开发者在插件上实现各式各样的功能，满足多样化的需求。</p>
+<h5 id="插件方式"><a href="#插件方式" class="headerlink" title="插件方式"></a>插件方式</h5><p>IDEA插件的创建有两种方式：DevKit插件 和 Gradle插件<br>而官方文档已经建议使用Gradle插件了，<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/migrating-plugin-devkit-to-gradle.html">将 DevKit 插件迁移到 Gradle</a>，所以本IDEA插件会采用基于Gradle的环境进行开发</p>
+<h5 id="使用介绍"><a href="#使用介绍" class="headerlink" title="使用介绍"></a>使用介绍</h5><ol>
+<li><p>koltin适配：<br>目前的IDEA插件允许行配置kotlin语言开发，并明确了kotlin开发在开发插件中的优势，<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/using-kotlin.html">配置Kotlin支持</a><br>同时，如果有一些UI的开发工作，不太会使用swing搭建的，可以使用kotlin的DSL进行UI搭建。<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/kotlin-ui-dsl-version-2.html">kotlin DLS 开发</a></p>
+</li>
+<li><p>Plugin Content（插件内容）：</p>
+<p>插件进行打包后生成的.jar文件包含：</p>
+<ol>
+<li>配置文件（<strong>META-INF&#x2F;plugin.xml</strong>）</li>
+<li>实现插件的功能类</li>
+<li>插件的图标（<strong>META-INF&#x2F;pluginIcon*.svg</strong>）</li>
+</ol>
+</li>
+<li><p>Bundling Plugin API Sources（绑定插件的API源）：<br>如果第三方插件使用<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html">Gradle IntelliJ 插件</a>并向插件添加依赖项，该插件捆绑 ZIP 分发中的源代码，则当开发人员导航到 API 类时，源代码将自动附加到插件库并在 IDE 中可见。</p>
+</li>
+<li><p>Plugin Class Loaders（插件类加载器）：<br>可以加载当前插件中找不到的类。</p>
+</li>
+<li><p>Plugin Actions（插件动作）：<br>Actions是绝大部分插件会使用的方式，他是IDEA提供的一个动作的概念，比如点击工具栏按钮，使用快捷键，命令行触发<br><img src="/imageMd/idea-2.png" alt="img"></p>
+<p>通过add-to-group配置，对Actions的触发条件进行设置，eg：绑定Command-N快捷键</p>
+</li>
+<li><p>Plugin Extensions（插件拓展）：<br>可以理解为插件的入口，比如菜单栏，工具栏等众多拓展点，基本所有的东西都允许二次拓展，大概存在<code>1424</code>个<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/extension-point-list.html">扩展点</a>。</p>
+</li>
+<li><p>Plugin Listeners（插件监听器）：</p>
+<p>IDEA插件中的监听器，通过消息总线的方式进行传输，插件方可根据自己的需求监听不同的监听器，执行不同的逻辑处理。目前存在<code>211</code>个<a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/docs/intellij/extension-point-list.html">监听器</a>。</p>
+</li>
+<li><p>Plugin Extension Points（插件拓展点）：</p>
+<p>与Plugin Extensions对立，这里接入拓展点后，别的插件可以在你的基础上进行二次拓展</p>
+<ol>
+<li>接口拓展：其他插件实现你的接口，进行拓展调用</li>
+<li>Bean拓展：其他插件可以使用你的data拓展你的插件，新增数据类型等</li>
+</ol>
+</li>
+<li><p>Plugin Services（插件服务）：</p>
+<p>插件服务的存在主要是确保只存在一个实例，即使他被多次调用</p>
+<ul>
+<li><code>com.intellij.applicationService</code> - 应用级别服务</li>
+<li><code>com.intellij.projectService</code> - 项目级别服务</li>
+<li><code>com.intellij.moduleService</code> - 模块级别服务（官方不推荐使用，会增加内存损耗）</li>
+</ul>
+</li>
+<li><p>Components（组件）：</p>
+<p>是一个被抛弃的东西，不支持动态加载，如果使用了，需要进行迁移</p>
+</li>
+<li><p>Plugin Configuration File（插件配置文件）：<br><strong>plugin.xml</strong>文件的语法</p>
+</li>
+<li><p>Plugin Logo (Icon)（插件图标）</p>
+</li>
+<li><p>Plugin Dependencies（插件依赖项）</p>
+</li>
+</ol>
+<h5 id="IDEA插件结构"><a href="#IDEA插件结构" class="headerlink" title="IDEA插件结构"></a>IDEA插件结构</h5><p><img src="/imageMd/idea-1.png" alt="image-20221107212550157"></p>
+<p>对于非用户触发的操作通过一个队列进行管理，防止逻辑时间点相近导致短时间内重复请求，造成项目卡顿，服务超载的问题<br>对于用户触发的操作则直接进行处理，请求推荐算法获取结论，并展示在IDEA或者直接修复代码</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>通过IDEA插件的Gradle形式可以实现对代码的动态监测，开发完毕后，需要对IDEA插件的性能进行分析，避免影响开发者的正常开发。</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/2023/11/27/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/%E5%AF%8C%E6%96%87%E6%9C%AC%E9%80%89%E4%B8%AD%E7%8A%B6%E6%80%81%E6%96%B9%E6%A1%88/" class="pre-post btn btn-default" title='富文本选中状态方案'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            富文本选中状态方案</span>
+    </a>
+    
+    
+    <a href="/2023/01/05/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/lint%E6%96%B9%E6%A1%88%E8%B0%83%E7%A0%94/" class="next-post btn btn-default" title='lint方案调研'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            lint方案调研</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+
+<div id="vcomments" class="valine"></div>
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+<script>
+new Valine({
+    av: AV,
+    el: '#vcomments',
+    appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+    appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+    placeholder: '说点什么吧',
+    notify: false,
+    verify: true,
+    avatar: 'mm',
+    meta: 'nick,mail'.split(','),
+    pageSize: '10',
+    path: window.location.pathname,
+    lang: 'zh-CN'.toLowerCase()
+})
+</script>
+
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EIDEA%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%9E%E6%97%B6%E4%BB%A3%E7%A0%81%E6%A3%80%E6%B5%8B%E5%8F%8A%E6%8E%A8%E8%8D%90%E8%B0%83%E7%A0%94"><span class="toc-text">基于IDEA插件的实时代码检测及推荐调研</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E8%B0%83%E7%A0%94"><span class="toc-text">方案调研</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Lint%E5%B7%A5%E5%85%B7"><span class="toc-text">Lint工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IDEA%E6%8F%92%E4%BB%B6"><span class="toc-text">IDEA插件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E6%96%B9%E5%BC%8F"><span class="toc-text">插件方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D"><span class="toc-text">使用介绍</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IDEA%E6%8F%92%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-text">IDEA插件结构</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/assets/tagcanvas.min.js?rev=2.9.js"></script>
+
+<script>
+var tagOption = {
+    textColour: '#444', // 字体颜色
+    outlineMethod: 'block', // 选中模式
+    outlineColour: '#FFDAB9', // 选中模式的颜色
+    interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+    textHeight: 13,
+    outlineRadius: 3,
+    freezeActive: true || '', // 选中的标签是否继续滚动
+    frontSelect: true || '', // 不选标签云后部的标签
+    initial: [0.1, -0.1],
+    depth: 0.5,
+    decel: 0.95,
+    maxSpeed: 0.03,
+    reverse: true || '', // 是否反向触发
+    fadeIn: 500, // 进入动画时间
+    wheelZoom: false || '' // 是否启用鼠标滚轮
+}
+TagCanvas.Start('tag-cloud-3d', '', tagOption);
+</script>
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="纳兰寒明的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+<meta name="keywords" content="Android" />
+
+
+<meta name="description" content="目标针对不同方向，如开发阶段，编译阶段，修复阶段等都进行提效，降低错误数量，便捷修复错误问题等。
+android studio本身存在系统的lint检查工具，但功能有限，并不能囊括所有的问题，参..." />
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+<title>
+    
+    lint方案调研 |
+    
+    纳兰寒明的博客
+</title>
+
+<link rel="alternate" href="/atom.xml" title="纳兰寒明的博客" type="application/atom+xml">
+
+
+<link rel="icon" href="/avatar.ico">
+
+    
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://hexo-theme-snippet-1251680922.cos.ap-beijing.myqcloud.com/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='纳兰寒明'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                我有一个梦想
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">
+                        纳兰寒明的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/后端/"><i class="fa "></i>
+                                后端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/移动端/"><i class="fa "></i>
+                                移动端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/随笔/"><i class="fa "></i>
+                                随笔</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时光轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="lint方案调研">
+            
+            lint方案调研
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-none-link" href="/tags/Android/" rel="tag">Android</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2023/01/05</span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                707</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>针对不同方向，如开发阶段，编译阶段，修复阶段等都进行提效，降低错误数量，便捷修复错误问题等。</p>
+<p>android studio本身存在系统的lint检查工具，但功能有限，并不能囊括所有的问题，参考<a target="_blank" rel="noopener" href="https://tech.meituan.com/2018/04/13/waimai-android-lint.html">美团外卖Android Lint代码检查实践</a>，我们可以自研一套lint工具体系，以此更好的治理移动端错误</p>
+<p>目前在知乎的android组件中并没有成型的可用自定义lint方案，所以我们可以构建一个</p>
+<h3 id="方案调研"><a href="#方案调研" class="headerlink" title="方案调研"></a>方案调研</h3><p>Android Studio 提供了一个名为 lint 的代码扫描工具，可帮助开发者发现并改正代码结构质量方面的问题。系统会报告该工具检测到的每个问题并提供问题的描述信息和严重级别。</p>
+<p>lint可针对android的源文件，通过lint.xml进行配置后，通过lint工具进行在正确性、安全性、性能、易用性、无障碍性和国际化方面入手，优化改进。</p>
+<p><img src="/imageMd/lint-1.png" alt="img"></p>
+<h4 id="检测时机"><a href="#检测时机" class="headerlink" title="检测时机"></a>检测时机</h4><p>其可在开发阶段通过idea识别并提示开发者，亦可在编译时提示。</p>
+<ol>
+<li><p>在开发阶段<br>idea会识别lint工具，并根据级别展示不同提示<br><img src="/imageMd/lint-2.png" alt="image2022-8-24_13-48-3"><br>开发者可在弹窗中获取更多关于提示的信息，并根据提示修复问题</p>
+</li>
+<li><p>在编译阶段<br><img src="/imageMd/lint-3.png" alt="image2022-8-24_13-53-3"><br>会存在提示，如是error级别日志会阻断编译过程，必须修复后方可运行</p>
+</li>
+<li><p>除此之外，我们亦可手动调用 .&#x2F;gradlew lint 进行代码检查，之后会生成xml文件和html文件可供分析<br><img src="/imageMd/lint-4.png" alt="image2022-8-24_14-0-44"><br><img src="/imageMd/lint-5.png" alt="image2022-8-24_14-8-36"></p>
+</li>
+<li><p>commit增量检测<br>lint的原理是进行全盘扫描，如果项目较为庞大，那么可定耗时很长，所以可以通过分析每次commit生成的diff文件，进行增量lint检测</p>
+</li>
+<li><p>CI检测<br>可通过配置打包服务器Jenkins，在提交mr的时候进行检测</p>
+</li>
+</ol>
+<h4 id="检测配置"><a href="#检测配置" class="headerlink" title="检测配置"></a>检测配置</h4><ol>
+<li><p>配置可检测规则</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  lintOptions &#123;</span><br><span class="line">        <span class="comment">//设置只检查的类型</span></span><br><span class="line">        <span class="type">def</span> <span class="variable">checkList</span> <span class="operator">=</span> [</span><br><span class="line">                <span class="string">&#x27;SerializableClassCheck&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;HandleExceptionCheck&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;AvoidUsageApiCheck&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;DependencyApiCheck&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;ResourceNameCheck&#x27;</span></span><br><span class="line">        ] as String[]</span><br><span class="line">        check checkList</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>针对当前项目进行配置<br>右键点击项目<strong>Analyze→InspectCode</strong> 进行相关的lint有效范围配置<br><img src="/imageMd/lint-6.png" alt="image2022-8-24_15-54-10"></p>
+</li>
+<li><p>忽略历史问题<br>通过创建一个baseline.xml文件，将该时间点之前的所有项目产生的lint问题忽略</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android&#123;  </span><br><span class="line">  lintOptions &#123;        </span><br><span class="line">    <span class="comment">//创建警告基准       </span></span><br><span class="line">    baseline <span class="title function_">file</span><span class="params">(<span class="string">&quot;lint-baseline.xml&quot;</span>)</span>    </span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="方案优势"><a href="#方案优势" class="headerlink" title="方案优势"></a>方案优势</h3><p>采用lint方案，存在什么优势呢？</p>
+<ol>
+<li>功能强大，Lint支持Java和Kt源文件、class文件、资源文件、Gradle等文件的检查。</li>
+<li>扩展性强，支持开发自定义Lint规则。</li>
+<li>配套工具完善，Android Studio、Android Gradle插件原生支持Lint工具。</li>
+<li>Lint专为Android设计，原生提供了几百个实用的Android相关检查规则。</li>
+<li>有Google官方的支持，会和Android开发工具一起升级完善。</li>
+</ol>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>可以采用lint工具，其推进的最大阻力在于lint的规则编写。</p>
+<p>根据目前线上出现的高频问题，进行评估后列入表格中，按表格依次开发规则迭代lint工具。</p>
+<h3 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h3><ol>
+<li>lint规则可配置处理，无需手写规则</li>
+<li>增量lint判断处理</li>
+</ol>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/2023/01/05/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/%E5%9F%BA%E4%BA%8EIDE%E6%8F%92%E4%BB%B6%E7%9A%84%E4%BB%A3%E7%A0%81%E5%AE%9E%E6%97%B6%E6%A3%80%E6%B5%8B/" class="pre-post btn btn-default" title='基于IDE插件的代码实时检测'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            基于IDE插件的代码实时检测</span>
+    </a>
+    
+    
+    <a href="/2023/01/05/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/lint%E5%9C%A8AGP3-3-3%E5%A4%B1%E6%95%88%E7%9A%84%E9%97%AE%E9%A2%98/" class="next-post btn btn-default" title='lint在AGP3.3.3失效的问题'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            lint在AGP3.3.3失效的问题</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+
+<div id="vcomments" class="valine"></div>
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+<script>
+new Valine({
+    av: AV,
+    el: '#vcomments',
+    appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+    appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+    placeholder: '说点什么吧',
+    notify: false,
+    verify: true,
+    avatar: 'mm',
+    meta: 'nick,mail'.split(','),
+    pageSize: '10',
+    path: window.location.pathname,
+    lang: 'zh-CN'.toLowerCase()
+})
+</script>
+
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E8%B0%83%E7%A0%94"><span class="toc-text">方案调研</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E6%97%B6%E6%9C%BA"><span class="toc-text">检测时机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E9%85%8D%E7%BD%AE"><span class="toc-text">检测配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E4%BC%98%E5%8A%BF"><span class="toc-text">方案优势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E5%B1%95"><span class="toc-text">拓展</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/assets/tagcanvas.min.js?rev=2.9.js"></script>
+
+<script>
+var tagOption = {
+    textColour: '#444', // 字体颜色
+    outlineMethod: 'block', // 选中模式
+    outlineColour: '#FFDAB9', // 选中模式的颜色
+    interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+    textHeight: 13,
+    outlineRadius: 3,
+    freezeActive: true || '', // 选中的标签是否继续滚动
+    frontSelect: true || '', // 不选标签云后部的标签
+    initial: [0.1, -0.1],
+    depth: 0.5,
+    decel: 0.95,
+    maxSpeed: 0.03,
+    reverse: true || '', // 是否反向触发
+    fadeIn: 500, // 进入动画时间
+    wheelZoom: false || '' // 是否启用鼠标滚轮
+}
+TagCanvas.Start('tag-cloud-3d', '', tagOption);
+</script>
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>

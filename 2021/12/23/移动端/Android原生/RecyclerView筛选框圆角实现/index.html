@@ -1,0 +1,359 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="纳兰寒明的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+<meta name="keywords" content="Android" />
+
+
+<meta name="description" content="筛选框是app的常用功能，如何实现下图红圈功能呢？
+首先左侧目录可以通过一个RecyclerView实现，右侧同样可以实现一个RecyclerView，左侧的RecyclerView中我们想实现..." />
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+<title>
+    
+    RecyclerView筛选框圆角实现 |
+    
+    纳兰寒明的博客
+</title>
+
+<link rel="alternate" href="/atom.xml" title="纳兰寒明的博客" type="application/atom+xml">
+
+
+<link rel="icon" href="/avatar.ico">
+
+    
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://hexo-theme-snippet-1251680922.cos.ap-beijing.myqcloud.com/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='纳兰寒明'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                我有一个梦想
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">
+                        纳兰寒明的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/后端/"><i class="fa "></i>
+                                后端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/移动端/"><i class="fa "></i>
+                                移动端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/随笔/"><i class="fa "></i>
+                                随笔</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时光轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="RecyclerView筛选框圆角实现">
+            
+            RecyclerView筛选框圆角实现
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-none-link" href="/tags/Android/" rel="tag">Android</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/12/23</span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                1084</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <p>筛选框是app的常用功能，如何实现下图红圈功能呢？</p>
+<p><img src="/imageMd/image-recyclerView.png" alt="image-recyclerView"><br>首先左侧目录可以通过一个RecyclerView实现，右侧同样可以实现一个RecyclerView，左侧的RecyclerView中我们想实现圆角的，但是该圆角的View已经不在ViewHolder中，我们很难在ViewHolder中画出两个圆角，所以我们通过其他方法实现</p>
+<p>ItemDecoration有三个重要方法：</p>
+<p>onDraw：在ViewHolder下方绘制</p>
+<p>onDrawOver：在ViewHolder上方绘制</p>
+<p>getItemOffsets：ViewHolder的偏移量</p>
+<p>其中我们可以通过onDrawOver实现，将两个圆角绘制在ViewHolder上方显示出来</p>
+<p>首先，我们搭建一个RecyclerView</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//MainActivity</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> mRecyclerView <span class="keyword">by</span> lazy &#123;</span><br><span class="line">        findViewById&lt;RecyclerView&gt;(R.id.recycler)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> mAdapter: MainAdapter? = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> mList: ArrayList&lt;Item&gt; = ArrayList()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line">        initData()</span><br><span class="line">        mAdapter = MainAdapter(mList, <span class="keyword">object</span> : MainAdapter.OnItemClick &#123;</span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onItemClick</span><span class="params">(view: <span class="type">View</span>, position: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (i <span class="keyword">in</span> mList) &#123;</span><br><span class="line">                    i.apply &#123;</span><br><span class="line">                        isChecked = <span class="literal">false</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                mList[position].apply &#123;</span><br><span class="line">                    isChecked = <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">                mAdapter?.notifyDataSetChanged()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        mRecyclerView.adapter = mAdapter</span><br><span class="line">        mRecyclerView.layoutManager = LinearLayoutManager(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">initData</span><span class="params">()</span></span> &#123;</span><br><span class="line">        mList.clear()</span><br><span class="line">        <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">0.</span><span class="number">.10</span>) &#123;</span><br><span class="line">            mList.add(Item(<span class="string">&quot;第<span class="subst">$&#123;i&#125;</span>个&quot;</span>))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">data</span> <span class="keyword">class</span> <span class="title class_">Item</span>(<span class="keyword">val</span> text: String, <span class="keyword">var</span> isChecked: <span class="built_in">Boolean</span> = <span class="literal">false</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">MainAdapter</span>(<span class="keyword">private</span> <span class="keyword">val</span> list: ArrayList&lt;Item&gt;, <span class="keyword">private</span> <span class="keyword">val</span> onItemClick: OnItemClick? = <span class="literal">null</span>) : RecyclerView.Adapter&lt;RecyclerView.ViewHolder&gt;() &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">var</span> context: Context? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreateViewHolder</span><span class="params">(parent: <span class="type">ViewGroup</span>, viewType: <span class="type">Int</span>)</span></span>: RecyclerView.ViewHolder &#123;</span><br><span class="line">            <span class="keyword">val</span> view = LayoutInflater.from(parent.context).inflate(R.layout.vh_item, parent, <span class="literal">false</span>)</span><br><span class="line">            context = parent.context</span><br><span class="line">            <span class="keyword">return</span> MainViewHolder(view, onItemClick)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onBindViewHolder</span><span class="params">(holder: <span class="type">RecyclerView</span>.<span class="type">ViewHolder</span>, position: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">            <span class="keyword">val</span> item = list[position]</span><br><span class="line">            holder <span class="keyword">as</span> MainViewHolder</span><br><span class="line">            holder.setText(item.text)</span><br><span class="line">            (<span class="keyword">if</span> (item.isChecked) context?.let &#123; getColor(it, R.color.white) &#125; <span class="keyword">else</span> Color.parseColor(<span class="string">&quot;#F6F6F6&quot;</span>))?.let &#123; holder.setBackgroundColor(it) &#125;</span><br><span class="line">            holder.itemView.tag = <span class="keyword">if</span> (item.isChecked) <span class="string">&quot;true&quot;</span> <span class="keyword">else</span> <span class="string">&quot;false&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">getItemCount</span><span class="params">()</span></span>: <span class="built_in">Int</span> = list.size</span><br><span class="line"></span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">MainViewHolder</span>(itemView: View, onItemClick: OnItemClick?) : RecyclerView.ViewHolder(itemView) &#123;</span><br><span class="line">            <span class="keyword">init</span> &#123;</span><br><span class="line">                itemView.setOnClickListener &#123;</span><br><span class="line">                    onItemClick?.onItemClick(it, adapterPosition)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">fun</span> <span class="title">setText</span><span class="params">(text: <span class="type">String</span>?)</span></span> &#123;</span><br><span class="line">                itemView.findViewById&lt;TextView&gt;(R.id.item_text).text = text ?: <span class="string">&quot;&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">fun</span> <span class="title">setBackgroundColor</span><span class="params">(color: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">                itemView.setBackgroundColor(color)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">interface</span> <span class="title class_">OnItemClick</span> &#123;</span><br><span class="line">            <span class="function"><span class="keyword">fun</span> <span class="title">onItemClick</span><span class="params">(view: <span class="type">View</span>, position: <span class="type">Int</span>)</span></span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//activity_main</span><br><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">&quot;.MainActivity&quot;</span></span></span><br><span class="line"><span class="tag">    &gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">androidx.recyclerview.widget.RecyclerView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">&quot;@+id/recycler&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">&quot;#F6F6F6&quot;</span></span></span><br><span class="line"><span class="tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//vh_item</span><br><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;100dp&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:background</span>=<span class="string">&quot;#F6F6F6&quot;</span></span></span><br><span class="line"><span class="tag">    &gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">&quot;@+id/item_text&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">&quot;123&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textSize</span>=<span class="string">&quot;16sp&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">&quot;@color/black&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:gravity</span>=<span class="string">&quot;center&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当在选中的时候改变VH的颜色，之后我们需要添加一个ItemDecoration，在ItemDecoration中我们需要知道选中的View，获取View宽高后，进行上下圆角的绘制</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">BorderItemDecoration</span>() : RecyclerView.ItemDecoration() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDrawOver</span><span class="params">(c: <span class="type">Canvas</span>, parent: <span class="type">RecyclerView</span>, state: <span class="type">RecyclerView</span>.<span class="type">State</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onDrawOver(c, parent, state)</span><br><span class="line">        <span class="keyword">for</span> (view <span class="keyword">in</span> parent.children) &#123;</span><br><span class="line">            <span class="keyword">if</span> (view.tag == <span class="string">&quot;true&quot;</span>) &#123;</span><br><span class="line">                drawTop(c, view)</span><br><span class="line">                drawBottom(c, view)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">drawTop</span><span class="params">(c: <span class="type">Canvas</span>, view: <span class="type">View</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> paint = Paint()</span><br><span class="line">        <span class="keyword">val</span> rect = Rect()</span><br><span class="line">        <span class="keyword">val</span> top = view.top</span><br><span class="line">        <span class="keyword">val</span> radius = view.resources.displayMetrics.density * <span class="number">40</span></span><br><span class="line">        rect.<span class="keyword">set</span>((view.width - radius).toInt(), (top - radius).toInt(), view.width, view.top)</span><br><span class="line">        paint.color = Color.WHITE</span><br><span class="line">        paint.style = Paint.Style.FILL</span><br><span class="line">        c.drawRect(rect, paint)</span><br><span class="line"></span><br><span class="line">        paint.color = Color.parseColor(<span class="string">&quot;#F6F6F6&quot;</span>)</span><br><span class="line">        c.drawCircle(view.width - radius, top - radius, radius, paint)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">drawBottom</span><span class="params">(c: <span class="type">Canvas</span>, view: <span class="type">View</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> paint = Paint()</span><br><span class="line">        <span class="keyword">val</span> rect = Rect()</span><br><span class="line">        <span class="keyword">val</span> bottom = view.bottom</span><br><span class="line">        <span class="keyword">val</span> radius = view.resources.displayMetrics.density * <span class="number">40</span></span><br><span class="line">        c.translate(<span class="number">0f</span>, <span class="number">0f</span>)</span><br><span class="line">        rect.<span class="keyword">set</span>((view.width - radius).toInt(), (bottom + radius).toInt(), view.width, view.bottom)</span><br><span class="line">        paint.color = Color.WHITE</span><br><span class="line">        paint.style = Paint.Style.FILL</span><br><span class="line">        c.drawRect(rect, paint)</span><br><span class="line"></span><br><span class="line">        paint.color = Color.parseColor(<span class="string">&quot;#F6F6F6&quot;</span>)</span><br><span class="line">        c.drawCircle(view.width - radius, bottom + radius, radius, paint)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>绘制的细节如下：</p>
+<ol>
+<li>先绘制获取选中view的坐标，计算出圆角半径的矩形位置，使用白色填充</li>
+<li>在圆角半径内画圆，填充为#F6F6F6颜色，剩下的就是圆角白色</li>
+</ol>
+<p>上下方法相同。</p>
+<p>效果如下：</p>
+<p><img src="/imageMd/video-recyclerView.gif" alt="video_recyclerView"></p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/2023/01/05/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/lint%E5%9C%A8AGP3-3-3%E5%A4%B1%E6%95%88%E7%9A%84%E9%97%AE%E9%A2%98/" class="pre-post btn btn-default" title='lint在AGP3.3.3失效的问题'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            lint在AGP3.3.3失效的问题</span>
+    </a>
+    
+    
+    <a href="/2021/07/28/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/%E6%97%A5%E5%A4%9C%E9%97%B4%E5%8F%8A%E6%8D%A2%E8%82%A4%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" class="next-post btn btn-default" title='日夜间及换肤（二）-原理分析'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            日夜间及换肤（二）-原理分析</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+
+<div id="vcomments" class="valine"></div>
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+<script>
+new Valine({
+    av: AV,
+    el: '#vcomments',
+    appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+    appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+    placeholder: '说点什么吧',
+    notify: false,
+    verify: true,
+    avatar: 'mm',
+    meta: 'nick,mail'.split(','),
+    pageSize: '10',
+    path: window.location.pathname,
+    lang: 'zh-CN'.toLowerCase()
+})
+</script>
+
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <p>暂无目录</p>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/assets/tagcanvas.min.js?rev=2.9.js"></script>
+
+<script>
+var tagOption = {
+    textColour: '#444', // 字体颜色
+    outlineMethod: 'block', // 选中模式
+    outlineColour: '#FFDAB9', // 选中模式的颜色
+    interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+    textHeight: 13,
+    outlineRadius: 3,
+    freezeActive: true || '', // 选中的标签是否继续滚动
+    frontSelect: true || '', // 不选标签云后部的标签
+    initial: [0.1, -0.1],
+    depth: 0.5,
+    decel: 0.95,
+    maxSpeed: 0.03,
+    reverse: true || '', // 是否反向触发
+    fadeIn: 500, // 进入动画时间
+    wheelZoom: false || '' // 是否启用鼠标滚轮
+}
+TagCanvas.Start('tag-cloud-3d', '', tagOption);
+</script>
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>

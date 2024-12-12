@@ -1,0 +1,414 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="纳兰寒明的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+<meta name="keywords" content="Android" />
+
+
+<meta name="description" content="[TOC]
+原地址：日夜间及换肤（一）-常用技巧
+总览实现日夜间的方式有多种，基本可以整理如下：
+
+设置UiMode来设置
+对Activity设置主题来变换
+动态设置资源，控制view刷新
+
+U..." />
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+<title>
+    
+    日夜间及换肤（一）-常用技巧 |
+    
+    纳兰寒明的博客
+</title>
+
+<link rel="alternate" href="/atom.xml" title="纳兰寒明的博客" type="application/atom+xml">
+
+
+<link rel="icon" href="/avatar.ico">
+
+    
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash.css">
+
+    
+<div class="hide">
+    <script type="text/javascript">
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+
+
+
+
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://hexo-theme-snippet-1251680922.cos.ap-beijing.myqcloud.com/img/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='纳兰寒明'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                我有一个梦想
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">
+                        纳兰寒明的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/前端/"><i class="fa "></i>
+                                前端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/后端/"><i class="fa "></i>
+                                后端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/移动端/"><i class="fa "></i>
+                                移动端</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/随笔/"><i class="fa "></i>
+                                随笔</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                时光轴</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="日夜间及换肤（一）-常用技巧">
+            
+            日夜间及换肤（一）-常用技巧
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-none-link" href="/tags/Android/" rel="tag">Android</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/07/28</span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                1232</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    <div class="post-body post-content">
+        <p>[TOC]</p>
+<p>原地址：<a target="_blank" rel="noopener" href="https://hanmingkang.github.io/2021/07/28/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/%E6%97%A5%E5%A4%9C%E9%97%B4%E5%8F%8A%E6%8D%A2%E8%82%A4%EF%BC%88%E4%B8%80%EF%BC%89-%E5%B8%B8%E7%94%A8%E6%8A%80%E5%B7%A7/">日夜间及换肤（一）-常用技巧</a></p>
+<h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p>实现日夜间的方式有多种，基本可以整理如下：</p>
+<ol>
+<li>设置UiMode来设置</li>
+<li>对Activity设置主题来变换</li>
+<li>动态设置资源，控制view刷新</li>
+</ol>
+<h3 id="UIMode实现"><a href="#UIMode实现" class="headerlink" title="UIMode实现"></a>UIMode实现</h3><ol>
+<li><p>在value的同级目录下新建一个<code>values-night</code>的目录，其中新建colors.xml文件，themes.xml文件等需要日夜间切换</p>
+<p><img src="/imageMd/daynight-1.jpg" alt="daynight-1"></p>
+</li>
+<li><p>比如colors文件，需要将color所对应的名字保持一致，只进行颜色上的更改，达到日夜间不同的效果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//normal</span></span><br><span class="line">&lt;color name=<span class="string">&quot;background&quot;</span>&gt;#FFFFFFFF&lt;/color&gt; <span class="comment">//白色</span></span><br><span class="line">&lt;color name=<span class="string">&quot;text_color&quot;</span>&gt;#FF000000&lt;/color&gt; <span class="comment">//黑色</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//night</span></span><br><span class="line">&lt;color name=<span class="string">&quot;background&quot;</span>&gt;#FF000000&lt;/color&gt; <span class="comment">//黑色</span></span><br><span class="line">&lt;color name=<span class="string">&quot;text_color&quot;</span>&gt;#FFFFFFFF&lt;/color&gt; <span class="comment">//白色</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>在需要触发切换的地方调用如下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置所有的Activity生效</span></span><br><span class="line"><span class="keyword">if</span> (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) &#123;</span><br><span class="line">    <span class="comment">//切换白天</span></span><br><span class="line">    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//切换夜间</span></span><br><span class="line">    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置所在的Activity生效</span></span><br><span class="line"><span class="keyword">if</span>(delegate.localNightMode == AppCompatDelegate.MODE_NIGHT_YES)&#123;</span><br><span class="line">     <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR1) &#123;</span><br><span class="line">           <span class="comment">//切换白天</span></span><br><span class="line">           delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_NO</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR1) &#123;</span><br><span class="line">          <span class="comment">//切换夜间</span></span><br><span class="line">          delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//五种参数类型</span></span><br><span class="line"><span class="comment">//跟随系统</span></span><br><span class="line">MODE_NIGHT_FOLLOW_SYSTEM</span><br><span class="line"><span class="comment">//跟随时间自动设置</span></span><br><span class="line">MODE_NIGHT_AUTO_TIME</span><br><span class="line"><span class="comment">//日间</span></span><br><span class="line">MODE_NIGHT_NO</span><br><span class="line"><span class="comment">//夜间</span></span><br><span class="line">MODE_NIGHT_YES</span><br><span class="line"><span class="comment">//根据系统电量决定暗色和亮色展示</span></span><br><span class="line">MODE_NIGHT_AUTO_BATTERY</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>系统会根据日夜间自动去取<code>*-night</code>或者正常的文件夹相对应的配置，配合持久化存储进行日夜间状态存储，二次打开加载上一次设置的模式</p>
+<h3 id="设置Activity主题实现"><a href="#设置Activity主题实现" class="headerlink" title="设置Activity主题实现"></a>设置Activity主题实现</h3><ol>
+<li><p>在colors.xml中新建日夜间两种颜色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">    &lt;color name=<span class="string">&quot;background_day&quot;</span>&gt;#FFFFFFFF&lt;/color&gt;</span><br><span class="line">    &lt;color name=<span class="string">&quot;background_night&quot;</span>&gt;#FF000000&lt;/color&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在res&#x2F;values目录下新建attrs.xml文件，添加自定义属性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">    &lt;attr name=<span class="string">&quot;custom_bg&quot;</span> format=<span class="string">&quot;color|reference&quot;</span>/&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在res&#x2F;values目录下新建themes.xml文件，添加两种主题如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources xmlns:tools=<span class="string">&quot;http://schemas.android.com/tools&quot;</span>&gt;</span><br><span class="line">    &lt;style name=<span class="string">&quot;Theme.MyDay&quot;</span> parent=<span class="string">&quot;Theme.AppCompat&quot;</span>&gt;</span><br><span class="line">        &lt;item name=<span class="string">&quot;custom_bg&quot;</span>&gt;<span class="meta">@color</span>/background_day&lt;/item&gt;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line"></span><br><span class="line">    &lt;style name=<span class="string">&quot;Theme.MyNight&quot;</span> parent=<span class="string">&quot;Theme.AppCompat&quot;</span>&gt;</span><br><span class="line">        &lt;item name=<span class="string">&quot;custom_bg&quot;</span>&gt;<span class="meta">@color</span>/background_night&lt;/item&gt;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在布局文件中使用自定义属性颜色</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;androidx.core.widget.NestedScrollView </span><br><span class="line">    android:layout_width=<span class="string">&quot;match_parent&quot;</span></span><br><span class="line">    android:layout_height=<span class="string">&quot;match_parent&quot;</span></span><br><span class="line">    android:background=<span class="string">&quot;?attr/custom_bg&quot;</span></span><br><span class="line">    tools:context=<span class="string">&quot;.MainActivity&quot;</span>&gt;</span><br><span class="line">      ...</span><br><span class="line">&lt;/androidx.core.widget.NestedScrollView&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>在Activity中配置</p>
+<ol>
+<li><p>只在当前Activity中生效</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MainActivity</span> : AppCompatActivity() &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">var</span> <span class="variable">myTheme</span> <span class="operator">=</span> R.style.Theme_MyDay</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> lateinit <span class="keyword">var</span> binding:ActivityMainBinding</span><br><span class="line">    override fun <span class="title function_">onCreate</span><span class="params">(savedInstanceState: Bundle?)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        <span class="comment">// 判断是否有主题存储</span></span><br><span class="line">        <span class="keyword">if</span>(savedInstanceState != <span class="literal">null</span>)&#123;</span><br><span class="line">            myTheme = savedInstanceState.getInt(<span class="string">&quot;theme&quot;</span>)</span><br><span class="line">            setTheme(myTheme)</span><br><span class="line">        &#125;</span><br><span class="line">        binding = ActivityMainBinding.inflate(layoutInflater)</span><br><span class="line">        setContentView(binding.root)</span><br><span class="line">        initView()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> fun <span class="title function_">initView</span><span class="params">()</span> &#123;</span><br><span class="line">        binding.button2.setOnClickListener &#123;</span><br><span class="line">            myTheme = <span class="keyword">if</span>(myTheme == R.style.Theme_MyDay)&#123;</span><br><span class="line">                R.style.Theme_MyNight</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                R.style.Theme_MyDay</span><br><span class="line">            &#125;</span><br><span class="line">            recreate()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">   override fun <span class="title function_">onSaveInstanceState</span><span class="params">(outState: Bundle)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onSaveInstanceState(outState)</span><br><span class="line">        outState.putInt(<span class="string">&quot;theme&quot;</span>, myTheme)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun <span class="title function_">onRestoreInstanceState</span><span class="params">(savedInstanceState: Bundle)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onRestoreInstanceState(savedInstanceState)</span><br><span class="line">        myTheme = savedInstanceState.getInt(<span class="string">&quot;theme&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为setContentView()时进行主题加载和布局渲染，所以需要在setContentView()之前调用<code>setTheme</code>方法，如需动态替换日夜间模式，同样需要<code>recreate()</code>才能生效，因为牵扯到Activity的重建，所以我们第一反应是通过onSaveInstance存储主题，在onCreate中进行加载，当然也可以使用其他方式。</p>
+</li>
+<li><p>在所有Activity生效</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">App</span> : Application() &#123;</span><br><span class="line">    companion object&#123;</span><br><span class="line">        <span class="type">var</span> <span class="variable">myTheme</span> <span class="operator">=</span> R.style.Theme_MyDay</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">var</span> <span class="variable">activityLifecycle</span> <span class="operator">=</span> object : ActivityLifecycleCallbacks &#123;</span><br><span class="line">        override fun <span class="title function_">onActivityCreated</span><span class="params">(activity: Activity, savedInstanceState: Bundle?)</span> &#123;</span><br><span class="line">            activity.setTheme(myTheme)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        override fun <span class="title function_">onActivityStarted</span><span class="params">(activity: Activity)</span> &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        override fun <span class="title function_">onActivityResumed</span><span class="params">(activity: Activity)</span> &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        override fun <span class="title function_">onActivityPaused</span><span class="params">(activity: Activity)</span> &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        override fun <span class="title function_">onActivityStopped</span><span class="params">(activity: Activity)</span> &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        override fun <span class="title function_">onActivitySaveInstanceState</span><span class="params">(activity: Activity, outState: Bundle)</span> &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        override fun <span class="title function_">onActivityDestroyed</span><span class="params">(activity: Activity)</span> &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate()</span><br><span class="line">        registerActivityLifecycleCallbacks(activityLifecycle)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在Application中进行设置，用静态对象存储主题，监听应用下所有Activity的创建，在<code>onActivityCreate()</code>时，进行主题设置，这样对Activity来说是无感的，只需要设置主题即可。</p>
+<blockquote>
+<p>当然也可以做一个持久化存储，这里只是提供一个思路</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="动态设置资源，控制view刷新"><a href="#动态设置资源，控制view刷新" class="headerlink" title="动态设置资源，控制view刷新"></a>动态设置资源，控制view刷新</h3><p>比较代表性的就是<a target="_blank" rel="noopener" href="https://github.com/ximsfei/Android-skin-support">Android-skin-support</a>这个库</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/studyofandroid/article/details/109445822">android-skin-support使用和原理分析</a></p>
+<p>添加如下依赖：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">&#x27;skin.support:skin-support:4.0.5&#x27;</span>                   <span class="comment">// skin-support</span></span><br><span class="line">implementation <span class="string">&#x27;skin.support:skin-support-appcompat:4.0.5&#x27;</span>         <span class="comment">// skin-support 基础控件支持</span></span><br><span class="line">implementation <span class="string">&#x27;skin.support:skin-support-design:4.0.5&#x27;</span>            <span class="comment">// skin-support-design material design 控件支持[可选]</span></span><br><span class="line">implementation <span class="string">&#x27;skin.support:skin-support-cardview:4.0.5&#x27;</span>          <span class="comment">// skin-support-cardview CardView 控件支持[可选]</span></span><br><span class="line">implementation <span class="string">&#x27;skin.support:skin-support-constraint-layout:4.0.5&#x27;</span> <span class="comment">// skin-support-constraint-layout ConstraintLayout 控件支持[可选]</span></span><br></pre></td></tr></table></figure>
+
+<p>在Application的onCreate中进行初始化操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onCreate();</span><br><span class="line">    SkinCompatManager.withoutActivity(<span class="built_in">this</span>)</span><br><span class="line">            .addInflater(<span class="keyword">new</span> <span class="title class_">SkinAppCompatViewInflater</span>())           <span class="comment">// 基础控件换肤初始化</span></span><br><span class="line">            .addInflater(<span class="keyword">new</span> <span class="title class_">SkinMaterialViewInflater</span>())            <span class="comment">// material design 控件换肤初始化[可选]</span></span><br><span class="line">            .addInflater(<span class="keyword">new</span> <span class="title class_">SkinConstraintViewInflater</span>())          <span class="comment">// ConstraintLayout 控件换肤初始化[可选]</span></span><br><span class="line">            .addInflater(<span class="keyword">new</span> <span class="title class_">SkinCardViewInflater</span>())                <span class="comment">// CardView v7 控件换肤初始化[可选]</span></span><br><span class="line">            .setSkinStatusBarColorEnable(<span class="literal">false</span>)                     <span class="comment">// 关闭状态栏换肤，默认打开[可选]</span></span><br><span class="line">            .setSkinWindowBackgroundEnable(<span class="literal">false</span>)                   <span class="comment">// 关闭windowBackground换肤，默认打开[可选]</span></span><br><span class="line">            .loadSkin();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果项目中使用的Activity继承自AppCompatActivity，需要重载getDelegate()方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@NonNull</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> AppCompatDelegate <span class="title function_">getDelegate</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> SkinAppCompatDelegateImpl.get(<span class="built_in">this</span>, <span class="built_in">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过如下方法触发</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SkinCompatManager.getInstance().loadSkin(<span class="string">&quot;night&quot;</span>, SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN); <span class="comment">// 后缀加载</span></span><br></pre></td></tr></table></figure>
+
+<p>详细用法查看<a target="_blank" rel="noopener" href="https://github.com/ximsfei/Android-skin-support">README</a></p>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><ol>
+<li>UIMode和theme替换都需要重建Activity，所以会导致闪屏，动态替换会更加流畅</li>
+<li>recreate()是在API 11添加进来的，所以会在Android 2.x中使用抛出异常</li>
+<li>theme换肤起来会更加方便</li>
+</ol>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/2021/07/28/%E7%A7%BB%E5%8A%A8%E7%AB%AF/Android%E5%8E%9F%E7%94%9F/%E6%97%A5%E5%A4%9C%E9%97%B4%E5%8F%8A%E6%8D%A2%E8%82%A4%EF%BC%88%E4%BA%8C%EF%BC%89-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" class="pre-post btn btn-default" title='日夜间及换肤（二）-原理分析'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            日夜间及换肤（二）-原理分析</span>
+    </a>
+    
+    
+    <a href="/2021/07/28/%E9%9A%8F%E7%AC%94/%E5%8F%A3%E8%85%94%E6%8C%82%E5%8F%B7%E6%8C%87%E5%8D%97/" class="next-post btn btn-default" title='口腔挂号指南'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            口腔挂号指南</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<div id="comments">
+    
+
+<div id="vcomments" class="valine"></div>
+
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+<script>
+new Valine({
+    av: AV,
+    el: '#vcomments',
+    appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+    appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+    placeholder: '说点什么吧',
+    notify: false,
+    verify: true,
+    avatar: 'mm',
+    meta: 'nick,mail'.split(','),
+    pageSize: '10',
+    path: window.location.pathname,
+    lang: 'zh-CN'.toLowerCase()
+})
+</script>
+
+
+</div>
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E8%A7%88"><span class="toc-text">总览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UIMode%E5%AE%9E%E7%8E%B0"><span class="toc-text">UIMode实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEActivity%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0"><span class="toc-text">设置Activity主题实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%AE%BE%E7%BD%AE%E8%B5%84%E6%BA%90%EF%BC%8C%E6%8E%A7%E5%88%B6view%E5%88%B7%E6%96%B0"><span class="toc-text">动态设置资源，控制view刷新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94"><span class="toc-text">对比</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2017
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/assets/tagcanvas.min.js?rev=2.9.js"></script>
+
+<script>
+var tagOption = {
+    textColour: '#444', // 字体颜色
+    outlineMethod: 'block', // 选中模式
+    outlineColour: '#FFDAB9', // 选中模式的颜色
+    interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+    textHeight: 13,
+    outlineRadius: 3,
+    freezeActive: true || '', // 选中的标签是否继续滚动
+    frontSelect: true || '', // 不选标签云后部的标签
+    initial: [0.1, -0.1],
+    depth: 0.5,
+    decel: 0.95,
+    maxSpeed: 0.03,
+    reverse: true || '', // 是否反向触发
+    fadeIn: 500, // 进入动画时间
+    wheelZoom: false || '' // 是否启用鼠标滚轮
+}
+TagCanvas.Start('tag-cloud-3d', '', tagOption);
+</script>
+
+
+
+<script src="/js/app.js?rev=@@hash.js"></script>
+
+</body>
+</html>
